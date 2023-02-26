@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link  rel="stylesheet" href="/style/Style.css" type="text/css">
+</head>
+<body>
+<div id="map" style="height: 99vh"></div>
+<div id="account-logo">
+    <img id="account-image-outer">
+</div>
+<div id="subCont">
+    <div id="bottomPanel">
+
+        <div id="line-sub"> <div id="horizontal-line"></div> </div>
+        <div id="first-block">
+        <div id="approvedButtons">
+            <div id="approv-sub"><div id="approvedButton"><div id="yes-button"></div></div></div>
+            <div id="reject-sub"><div id="rejectButton"><div id="now-button"></div></div></div>
+        </div>
+            <div id="time-sections">
+                <div id="time-added">11:00</div>
+                <div id="added">Додано</div>
+            </div>
+        </div>
+        <div id="second-block"></div>
+        <div id="third-block">
+
+            <div id="comment-cmd">
+                <div id="sub-comment">
+                    <button id="submit-comment" type="submit">Ok</button>
+                </div>
+                <textarea id="comment-text-submit" ></textarea>
+            </div>
+        </div>
+        <div id="add-comment">Додати коментар</div>
+    </div>
+</div>
+
+<script type="module" src="./getAllcoords.js"></script>
+<script type="module" src="./getSelfPosition.js"></script>
+<script type="module" src="./dragPanelEffect.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="./chart.js"></script>
+<script type="module" src="./showCommentCMD.js"></script>
+<script type="module" src="./sendComment.js"></script>
+<script type="module" src="./getLogoEffect.js"></script>
+<script type="module">
+
+    import {map} from "./getSelfPosition.js";
+    import {addMarker} from "./addMarker.js";
+    map.on('click', addMarker);
+
+
+
+</script>
+
+</body>
+</html>

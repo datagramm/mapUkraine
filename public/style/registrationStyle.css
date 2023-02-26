@@ -1,0 +1,118 @@
+body {
+    position: fixed;
+    width: 100%;
+    height: 99vh;
+    display: flex;
+    margin: 0 0;
+
+}
+
+#background-authorization {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10vh;
+    color: white;
+    width: 100%;
+    height: 40%;
+    background-image: url("/image/mountains.jpg");
+    background-size: cover;
+}
+#container-authorization {
+    transition: 0.2s;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+#main-container-authorization {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    box-sizing: border-box;
+
+
+}
+#change-autho {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+    background: #c9dee5;
+}
+.sign-button  {
+    transition: 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    color: #7ca6ad;
+    font-size: 2.5vh;
+    font-weight: bold;
+}
+
+#triangle{
+    transition: 0.5s;
+    clip-path: polygon(50% 0%, 0 40%, 100% 40%);
+    background: white;
+    width: 6vh;
+    height: 6vh;
+    position: absolute;
+    top: 8vh;
+}
+.active {
+    transition: 0.5s;
+    color: #4d8486;
+}
+#goAuthorization, #goLogin {
+    font-size: 2vh;
+    background-color: cornflowerblue;
+    border-radius: 2vh;
+    width: 60%;
+    height: 10%;
+    outline: none;
+    border: none;
+    color: white;
+}
+.container-item{
+    width: 70%;
+    margin: 1.5vh;
+    border: none;
+}
+
+.input::placeholder {
+    color: #b6b6b6;
+}
+
+.input {
+
+    padding-left: 2vh;
+    border: 0.2vh solid grey ;
+    font-size: 2vh;
+    background-color: white;
+    border-radius: 2vh;
+    width: 70%;
+    height: 10%;
+    outline: none;
+    color: black;
+}
+.sign-button:hover{
+    transition: 0.5s;
+    color: #4d8486;
+}
+.tooltip-reg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
