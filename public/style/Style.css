@@ -565,6 +565,7 @@ label{display: flex;
 #exit-button, #change-password {
 
     background-color: indianred;
+
     color: white;
 
     text-align: center;
@@ -579,4 +580,10 @@ label{display: flex;
     padding: 1vh 0 1vh 0;
     width: 80%;
     margin-bottom: 1vh;
+}
+#change-pass-button{
+    color: white;
+    outline: none;
+    border: none;
+    background: #2c60a6;
 }

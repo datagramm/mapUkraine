@@ -32,6 +32,7 @@ const {getRounds} = require('bcrypt');
 const Session = require('./models/session');
 
 
+
 const app = express();
 const port = process.env.PORT || 3000;
 const redirect_uri = process.env.REDIRECT_URI || 'http://localhost:3000/'
@@ -273,6 +274,29 @@ app.get('/getAllCoords', validateUser, getAvatar,  async (req, res) => {
 
 app.get('/getUser',  validateUser, async (req, res) => {
     res.send({username: req.body.userName})
+})
+app.post('/changingPassword', validateUser, async  (req,res) => {
+    const user = await User.findOne({username: req.body.userName});
+    const dbPassword = user.password;
+     bcrypt.compare(req.body.oldPass, dbPassword ).then( async (match) => {
+         if (match){
+                if(req.body.newPass === req.body.approvePass){
+                    bcrypt.hash(req.body.newPass, 10).then( async (hash) => {
+                        await User.findOneAndUpdate({username: req.body.userName}, {password: hash}, {new: true});
+                        res.send('Пароль успішно змінено');
+                    })
+
+                } else {
+                    res.send('паролі не збігаються');
+                }
+         }
+         else {
+
+                res.send('Невірний старий пароль');
+            }
+
+    })
+
 })
 
 
