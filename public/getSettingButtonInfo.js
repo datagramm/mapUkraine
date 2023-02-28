@@ -11,12 +11,17 @@ const getSettingButtonInfo = () => {
     exitButton.id = 'exit-button';
     exitButton.classList.add('setting-button');
     exitButton.textContent = 'Вийти';
-    document.querySelector('.account-container').append(changePassword, exitButton);
+
+    const plug = document.createElement('div');
+    plug.id = 'plug';
+    plug.classList.add('setting-button');
+    plug.textContent = ''
+    document.querySelector('.account-container').append(changePassword, exitButton, plug);
 
     exitButton.addEventListener('click', () => {fetch('/logout')
         .then(res => res.json()).then(
-            () => {
-                window.location = 'http://localhost:3000/';
+            (res) => {
+                window.location = res.link;
             }
         )
     ;});

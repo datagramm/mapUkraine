@@ -6,7 +6,7 @@ import {getSettingButtonInfo} from './getSettingButtonInfo.js';
 
 const accountLogo = document.getElementById('account-logo');
 const accountImage = document.getElementById('account-image-outer');
-let imageVariable;
+
 const getAccount = () => {
     accountImage.style.display = 'none';
 
@@ -151,8 +151,7 @@ const getAccount = () => {
                 })
 
                     getHomePageInfo();
-
-                 imageVariable =  uploadPicture();
+                    uploadPicture();
                 document.getElementById('added-image').src = `data:${imageRes.contentType};base64,${imageRes.buffer}`;
 
             })

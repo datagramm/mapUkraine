@@ -245,7 +245,7 @@ app.get('/logout', validateUser,  async (req,res) => {
     const refreshTokenId = await req.cookies["refreshTokenId"];
     await Session.findOneAndDelete({"refreshToken.id": refreshTokenId});
     res.clearCookie('accessTokenId');
-    await res.send({a:'success'})
+    await res.send({link: redirect_uri})
 
 
 });
