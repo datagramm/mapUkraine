@@ -57,7 +57,7 @@ const   validateSession = async (req, res, next) => {
                                 refreshToken: {id: newRefreshTokenId, timeExp: currentTimeInSeconds},
                             }, {new: true}).then(async () =>{
 
-                            const newAccessTokenId = sign({},process.env.SECRET_JWT, {expiresIn: '20s'} )
+                            const newAccessTokenId = sign({},process.env.SECRET_JWT, {expiresIn: '300s'} )
                             await res.cookie('accessTokenId', newAccessTokenId, { httpOnly: true, sameSite: 'lax'},);
                             await res.cookie('refreshTokenId', newRefreshTokenId, {maxAge: 5184000000, httpOnly: true, sameSite: 'lax'},);
                             next()

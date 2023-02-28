@@ -92,7 +92,7 @@ async function activate(req, res, next) {
     console.log(activationLink + "its activatelink")
     const  {refreshTokenId, username} = await mailService.activate(activationLink);
     console.log(refreshTokenId);
-    const accessTokenId = sign({}, process.env.SECRET_JWT, {expiresIn: '20s'})
+    const accessTokenId = sign({}, process.env.SECRET_JWT, {expiresIn: '300s'})
     await res.cookie('accessTokenId', accessTokenId,{  httpOnly: true, sameSite: 'lax'},);
     await res.cookie('refreshTokenId', refreshTokenId,{ maxAge: 5184000000, httpOnly: true, sameSite: 'lax'},);
      res.redirect(redirect_uri);

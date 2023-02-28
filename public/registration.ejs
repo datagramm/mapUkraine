@@ -26,6 +26,20 @@
 
 </div>
 <script>
+
+    let circleLoad = document.createElement('svg');
+    circleLoad.id = 'circle-load';
+    circleLoad.xmlns = "http://www.w3.org/2000/svg";
+    circleLoad.viewBox = '0 0 120 120'
+    circleLoad.innerHTML = `<circle cx="70" cy="70" r="70"></circle>`
+
+    document.getElementById('container-authorization').addEventListener('input', event => {
+        if (event.target.tagName == 'INPUT'){
+            console.log('loading...')
+            document.getElementById('container-authorization').insertAdjacentHTML(`beforeend`,`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/></svg>`)
+        }
+
+    })
     document.getElementById('goAuthorization').addEventListener('click', () => {
         console.log('wooooooooooooooooork')
         $.post('/register', {
@@ -109,6 +123,8 @@
                   <input class="container-item input" type="password" placeholder="password" id="autho-password">
                   <button class="container-item" type="submit"  id="goAuthorization">Зареєструватися</button>
                 `
+
+
                         document.getElementById('container-authorization').style.transform = 'translateX(0px)';
 
                         document.getElementById('goAuthorization').addEventListener('click', () => {
