@@ -2,7 +2,8 @@
 import {getCurrentTime} from "./getCurrentTime.js";
 import {someFunction} from "./pushMarker.js";
 
-const socket = new WebSocket('ws://localhost:3000')
+const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
+const socket = new WebSocket(`${protocol}://${location.host}`);
 
 const addMarker  = (e) => {
     let time = getCurrentTime();
@@ -33,7 +34,9 @@ const addMarker  = (e) => {
             downrate: 0,
             timeOfMarkerInPanel: timeOfMarkerInPanel,
         }
-    ).then(marker => {someFunction(marker.coord, marker.timer, marker.timeInMoment, marker.status1, marker.status2, marker.uprate, marker.downrate)
+    ).then(marker => {
+
+        // someFunction(marker.coord, marker.timer, marker.timeInMoment, marker.status1, marker.status2, marker.uprate, marker.downrate)
 
 
             socket.send(JSON.stringify({

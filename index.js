@@ -65,7 +65,8 @@ const getAvatar = async (req,res, next ) => {
 
 }
 const ws = new WebSocket.Server({ server:server });
-const connections = new Set();
+let connections = new Set()
+
 
 
 
@@ -74,6 +75,7 @@ app.get('/', validateSession, async (req, res) => {
     res.render(__dirname + '/Index.ejs');
 
     ws.on('connection',async (ws) => {
+
         await connections.add(ws);
         console.log(connections + 'its websockets');
 
