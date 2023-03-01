@@ -64,6 +64,13 @@ app.get('/', validateSession, async (req, res) => {
     res.render(__dirname + '/Index.ejs');
 
 
+    app.get('/getCurrentImageAvatar', validateUser, getAvatar, async (req, res) => {
+        res.send(res.body)
+    } )
+
+    app.get('/getUser',  validateUser, async (req, res) => {
+        res.send({username: req.body.userName})
+    })
 });
 
 
@@ -165,9 +172,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage });
 
-app.get('/getCurrentImageAvatar', validateUser, getAvatar, async (req, res) => {
-    res.send(res.body)
-} )
+
 
 app.post('/uploadImage', validateUser, upload.single('image'), validateUser, async (req, res, next) => {
     let extArray = req.file.mimetype.split("/");
@@ -244,6 +249,7 @@ app.post('/getAllComments', validateUser,  (req, res) => {
 app.get('/logout', validateUser,  async (req,res) => {
     const refreshTokenId = await req.cookies["refreshTokenId"];
     await Session.findOneAndDelete({"refreshToken.id": refreshTokenId});
+    res.clearCookie('refreshTokenId');
     res.clearCookie('accessTokenId');
     await res.send({link: redirect_uri})
 
@@ -272,9 +278,7 @@ app.get('/getAllCoords', validateUser, getAvatar,  async (req, res) => {
 
 });
 
-app.get('/getUser',  validateUser, async (req, res) => {
-    res.send({username: req.body.userName})
-})
+
 app.post('/changingPassword', validateUser, async  (req,res) => {
     const user = await User.findOne({username: req.body.userName});
     const dbPassword = user.password;
@@ -297,6 +301,14 @@ app.post('/changingPassword', validateUser, async  (req,res) => {
 
     })
 
+})
+
+app.post('/checkLogin', async (req, res) => {
+    const user = await User.findOne({username: req.body.username});
+    if (user) {
+        res.send({typeOfTooltip: 'cancel-tooltip'});
+
+    } else  res.send({typeOfTooltip: 'approved-tooltip'});
 })
 
 

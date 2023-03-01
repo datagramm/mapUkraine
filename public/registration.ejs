@@ -17,44 +17,58 @@
         <div id="triangle"></div>
     </div>
     <div id="container-authorization">
-    <input class="container-item input" type="text" placeholder="login@" id="autho-login">
-    <input class="container-item input" type="text" placeholder="mail@" id="autho-mail">
-    <input class="container-item input" type="password" placeholder="password" id="autho-password">
-    <button class="container-item" type="submit"  id="goAuthorization">Зареєструватися</button>
+        <div class="sub-container-input"><input class="container-item input" type="text" placeholder="login@"
+                                                id="autho-login">
+            <div class="tooltip-login"></div>
+        </div>
+
+        <div class="sub-container-input"><input class="container-item input" type="text" placeholder="mail@"
+                                                id="autho-mail">
+            <div class="tooltip-login"></div>
+        </div>
+        <div class="sub-container-input"><input class="container-item input" type="password" placeholder="password"
+                                                id="autho-password">
+            <div class="tooltip-login"></div>
+        </div>
+        <button class="container-item" type="submit" id="goAuthorization">Зареєструватися</button>
 
     </div>
 
 </div>
 <script>
 
-    let circleLoad = document.createElement('svg');
-    circleLoad.id = 'circle-load';
-    circleLoad.xmlns = "http://www.w3.org/2000/svg";
-    circleLoad.viewBox = '0 0 120 120'
-    circleLoad.innerHTML = `<circle cx="70" cy="70" r="70"></circle>`
 
     document.getElementById('container-authorization').addEventListener('input', event => {
-        if (event.target.tagName == 'INPUT'){
-            console.log('loading...')
-            document.getElementById('container-authorization').insertAdjacentHTML(`beforeend`,`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/></svg>`)
+        if (event.target.tagName == 'INPUT') {
+            event.target.parentElement.lastElementChild.style.backgroundColor = 'transparent';
+            event.target.parentElement.lastElementChild.innerHTML = '';
+            event.target.parentElement.lastElementChild.insertAdjacentHTML(`beforeend`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/></svg>`);
+            $.post('/checkLogin', {
+                username: event.target.value
+            }).then(res => {
+                res;
+                event.target.parentElement.lastElementChild.innerHTML = '';
+                event.target.parentElement.lastElementChild.innerHTML = `
+          <div  class="${res.typeOfTooltip}"></div>`;
+            });
         }
 
-    })
+    });
     document.getElementById('goAuthorization').addEventListener('click', () => {
-        console.log('wooooooooooooooooork')
+        console.log('wooooooooooooooooork');
         $.post('/register', {
             username: document.getElementById('autho-login').value,
             password: document.getElementById('autho-password').value,
-            mail:document.getElementById('autho-mail').value,
-        }).then(message => addMessage(message))
-    })
+            mail: document.getElementById('autho-mail').value,
+        }).then(message => addMessage(message));
+    });
 
 
+    document.getElementById('');
 
-    document.getElementById('')
-    function addMessage(message){
+    function addMessage(message) {
         let messageDiv = document.createElement('div');
-        messageDiv.classList.add('tooltip-reg')
+        messageDiv.classList.add('tooltip-reg');
         messageDiv.style.backgroundColor = 'lightgreen';
         messageDiv.style.borderRadius = '1vh';
         messageDiv.style.width = '60%';
@@ -64,53 +78,54 @@
         document.getElementById('container-authorization').prepend(messageDiv);
 
     }
-    function clearReg(){
-        return new Promise(resolve =>{
-            setTimeout(() =>{
 
-                while (document.getElementById('container-authorization').firstChild){
-                    document.getElementById('container-authorization').removeChild(document.getElementById('container-authorization').firstChild)
+    function clearReg() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+
+                while (document.getElementById('container-authorization').firstChild) {
+                    document.getElementById('container-authorization').removeChild(document.getElementById('container-authorization').firstChild);
 
                 }
 
-                resolve()
-            },40)
-        })
+                resolve();
+            }, 40);
+        });
     }
-      function getActiveButton (){
 
-         let triangle = document.getElementById('triangle');
-         let position = document.getElementById('sign-up').offsetWidth/2;
-         let startPosition = position - triangle.offsetWidth/2 ;
-         let currentButtonActive = document.getElementById('sign-up');
-         let currentButton = document.getElementById('sign-up');
-         triangle.style.left = startPosition + 'px'
-        window.addEventListener('resize',() => {
-             if(currentButton.id === 'sign-up') {
-                 triangle = document.getElementById('triangle');
-                 position = document.getElementById('sign-up').offsetWidth / 2;
-                 startPosition = position - triangle.offsetWidth / 2;
-                 currentButtonActive = document.getElementById('sign-up');
-                 triangle.style.left = startPosition + 'px'
-                 triangle.style.transform = `translateX(0px)`
-             }
-              else {
-                 triangle = document.getElementById('triangle');
-                 position = document.getElementById('sign-up').offsetWidth / 2;
-                 startPosition = position - triangle.offsetWidth / 2;
-                 currentButtonActive = document.getElementById('sign-up');
-                 triangle.style.left = startPosition + 'px'
-                 triangle.style.transform = `translateX(${position*2}px)`
+    function getActiveButton() {
 
-             }
-        })
+        let triangle = document.getElementById('triangle');
+        let position = document.getElementById('sign-up').offsetWidth / 2;
+        let startPosition = position - triangle.offsetWidth / 2;
+        let currentButtonActive = document.getElementById('sign-up');
+        let currentButton = document.getElementById('sign-up');
+        triangle.style.left = startPosition + 'px';
+        window.addEventListener('resize', () => {
+            if (currentButton.id === 'sign-up') {
+                triangle = document.getElementById('triangle');
+                position = document.getElementById('sign-up').offsetWidth / 2;
+                startPosition = position - triangle.offsetWidth / 2;
+                currentButtonActive = document.getElementById('sign-up');
+                triangle.style.left = startPosition + 'px';
+                triangle.style.transform = `translateX(0px)`;
+            } else {
+                triangle = document.getElementById('triangle');
+                position = document.getElementById('sign-up').offsetWidth / 2;
+                startPosition = position - triangle.offsetWidth / 2;
+                currentButtonActive = document.getElementById('sign-up');
+                triangle.style.left = startPosition + 'px';
+                triangle.style.transform = `translateX(${position * 2}px)`;
+
+            }
+        });
 
         document.getElementById('change-autho').addEventListener('click', async (event) => {
-            event.target.classList.remove('active')
-            if (event.target.id === 'sign-up' ){
-                triangle.style.transform = `translateX(0px)`
-                if(currentButton.id !== 'sign-up') {
-                    currentButton = document.getElementById('sign-up')
+            event.target.classList.remove('active');
+            if (event.target.id === 'sign-up') {
+                triangle.style.transform = `translateX(0px)`;
+                if (currentButton.id !== 'sign-up') {
+                    currentButton = document.getElementById('sign-up');
                     document.getElementById('container-authorization').style.transform = 'translateX(-100%)';
 
                     currentButtonActive = event.target;
@@ -118,63 +133,71 @@
                     document.getElementById('container-authorization').style.transform = 'translateX(150%)';
                     setTimeout(() => {
                         document.getElementById('container-authorization').innerHTML = `
-                  <input class="container-item input" type="text" placeholder="login@" id="autho-login">
-                  <input class="container-item input" type="text" placeholder="mail@" id="autho-mail">
-                  <input class="container-item input" type="password" placeholder="password" id="autho-password">
+                       <div class="sub-container-input"><input class="container-item input" type="text" placeholder="login@" id="autho-login">
+            <div class="tooltip-login"></div></div>
+
+   <div class="sub-container-input"> <input class="container-item input" type="text" placeholder="mail@" id="autho-mail">
+        <div class="tooltip-login"></div>
+       </div>
+   <div class="sub-container-input"> <input class="container-item input" type="password" placeholder="password" id="autho-password">
+        <div class="tooltip-login"></div>
+   </div>
                   <button class="container-item" type="submit"  id="goAuthorization">Зареєструватися</button>
-                `
+                `;
 
 
                         document.getElementById('container-authorization').style.transform = 'translateX(0px)';
 
                         document.getElementById('goAuthorization').addEventListener('click', () => {
-                            console.log('wooooooooooooooooork')
+                            console.log('wooooooooooooooooork');
                             $.post('/register', {
                                 username: document.getElementById('autho-login').value,
                                 password: document.getElementById('autho-password').value,
                                 mail: document.getElementById('autho-mail').value,
-                            }).then(message => addMessage(message))
-                        })
+                            }).then(message => addMessage(message));
+                        });
 
-                    }, 100)
+                    }, 100);
                 }
-            }
-             else if (event.target.id === 'sign-in' && currentButton.id !== 'sign-in'){
-                 await fetch('/')
-                 currentButton = document.getElementById('sign-in')
+            } else if (event.target.id === 'sign-in' && currentButton.id !== 'sign-in') {
+                await fetch('/');
+                currentButton = document.getElementById('sign-in');
                 document.getElementById('container-authorization').style.transform = 'translateX(100%)';
-                triangle.style.transform = `translateX(${position*2}px)`
+                triangle.style.transform = `translateX(${position * 2}px)`;
                 currentButtonActive = event.target;
 
                 await clearReg();
                 document.getElementById('container-authorization').style.transform = 'translateX(-150%)';
-                setTimeout(() =>{
+                setTimeout(() => {
                     document.getElementById('container-authorization').innerHTML = `
-                <input class="container-item input" type="text" placeholder="login@" id="autho-login">
-                <input class="container-item input" type="password" placeholder="password" id="autho-password">
+                 <div class="sub-container-input"><input class="container-item input" type="text" placeholder="login@" id="autho-login">
+            <div class="tooltip-login"></div></div>
+
+   <div class="sub-container-input"> <input class="container-item input" type="password" placeholder="password" id="autho-password">
+        <div class="tooltip-login"></div>
+   </div>
                 <button class="container-item" type="submit"  id="goLogin">Авторизуватися</button>
-                `
+                `;
                     document.getElementById('container-authorization').style.transform = 'translateX(0px)';
                     document.getElementById('goLogin').addEventListener('click', () => {
                         $.post('/login', {
                             username: document.getElementById('autho-login').value,
                             password: document.getElementById('autho-password').value,
                         }).then(message => {
-                            if (message.status ==='Success'){
+                            if (message.status === 'Success') {
                                 window.location = message.redirect;
-                            }
-                            else addMessage(message)
+                            } else addMessage(message);
 
-                        })
-                    })
+                        });
+                    });
 
-                },100)
-
+                }, 100);
 
 
             }
-        })
+        });
     }
+
     getActiveButton();
 
 </script>
