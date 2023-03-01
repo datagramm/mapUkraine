@@ -74,22 +74,7 @@ let connections = new Set()
 app.get('/', validateSession, async (req, res) => {
     res.render(__dirname + '/Index.ejs');
 
-    ws.on('connection',async (ws) => {
 
-        await connections.add(ws);
-        console.log(connections + 'its websockets');
-
-        ws.on('message', async (data) => {
-            const marker = await JSON.parse(data);
-            console.log('________________________')
-            console.log(marker);
-            connections.forEach( client => {
-                client.send(JSON.stringify(marker));
-            })
-
-        })
-
-    })
 
 
 
@@ -159,6 +144,22 @@ app.post('/login', async (req, res) => {
 
 app.post('/request', validateUser, validateSession,  async (req, res) => {
 
+    ws.on('connection',async (ws) => {
+
+        await connections.add(ws);
+        console.log(connections + 'its websockets');
+
+        ws.on('message', async (data) => {
+            const marker = await JSON.parse(data);
+            console.log('________________________')
+            console.log(marker);
+            connections.forEach( client => {
+                client.send(JSON.stringify(marker));
+            })
+
+        })
+
+    })
 
 
         console.log("Welcome to site:" + req.body.userName)
