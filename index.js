@@ -67,7 +67,7 @@ const getAvatar = async (req,res, next ) => {
 const ws = new WebSocket.Server({ server:server });
 let connections = new Set()
 
-ws.on('connection',async (ws) => {
+ws.on('connection', validateUser, async (ws) => {
 
     await connections.add(ws);
     console.log(connections + 'its websockets');
@@ -251,6 +251,7 @@ app.post('/changeRate', validateUser,async (req, res) => {
     }
 
 });
+
 app.post('/sentComment', validateUser, validateSession,  (req, res) => {
     let comment =
         {
