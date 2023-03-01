@@ -37,20 +37,27 @@
 </div>
 <script>
 
+    const checklLogin = (event) => {
+        event.target.parentElement.lastElementChild.style.backgroundColor = 'transparent';
+        event.target.parentElement.lastElementChild.innerHTML = '';
+        event.target.parentElement.lastElementChild.insertAdjacentHTML(`beforeend`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/></svg>`);
+        $.post('/checkLogin', {
+            username: event.target.value
+        }).then(res => {
+            res;
+            event.target.parentElement.lastElementChild.innerHTML = '';
+            event.target.parentElement.lastElementChild.innerHTML = `
+          <div  class="${res.typeOfTooltip}"></div>`;
+        });
+    }
+    let timeOutOnCheckingLogin;
 
     document.getElementById('container-authorization').addEventListener('input', event => {
         if (event.target.tagName == 'INPUT') {
-            event.target.parentElement.lastElementChild.style.backgroundColor = 'transparent';
-            event.target.parentElement.lastElementChild.innerHTML = '';
-            event.target.parentElement.lastElementChild.insertAdjacentHTML(`beforeend`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50"/></svg>`);
-            $.post('/checkLogin', {
-                username: event.target.value
-            }).then(res => {
-                res;
-                event.target.parentElement.lastElementChild.innerHTML = '';
-                event.target.parentElement.lastElementChild.innerHTML = `
-          <div  class="${res.typeOfTooltip}"></div>`;
-            });
+         clearTimeout(timeOutOnCheckingLogin);
+            timeOutOnCheckingLogin = setTimeout(() => {
+                checklLogin(event)
+            },500)
         }
 
     });
@@ -171,10 +178,9 @@
                 setTimeout(() => {
                     document.getElementById('container-authorization').innerHTML = `
                  <div class="sub-container-input"><input class="container-item input" type="text" placeholder="login@" id="autho-login">
-            <div class="tooltip-login"></div></div>
+            </div>
 
    <div class="sub-container-input"> <input class="container-item input" type="password" placeholder="password" id="autho-password">
-        <div class="tooltip-login"></div>
    </div>
                 <button class="container-item" type="submit"  id="goLogin">Авторизуватися</button>
                 `;

@@ -16,6 +16,8 @@ const {sign, verify} = require('jsonwebtoken')
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const WebSocket = require('ws')
+
 
 
 mongoose.set('strictQuery', true);
@@ -34,6 +36,9 @@ const Session = require('./models/session');
 
 
 const app = express();
+const server = require('http').createServer(app)
+
+
 const port = process.env.PORT || 3000;
 const redirect_uri = process.env.REDIRECT_URI || 'http://localhost:3000/'
 const static_path = path.join(__dirname, '/public');
@@ -59,9 +64,31 @@ const getAvatar = async (req,res, next ) => {
      })
 
 }
+const ws = new WebSocket.Server({ server:server });
+const connections = new Set();
+
+
+
 
 app.get('/', validateSession, async (req, res) => {
     res.render(__dirname + '/Index.ejs');
+
+    ws.on('connection',async (ws) => {
+        await connections.add(ws);
+        console.log(connections + 'its websockets');
+
+        ws.on('message', async (data) => {
+            const marker = await JSON.parse(data);
+            console.log('________________________')
+            console.log(marker);
+            connections.forEach( client => {
+                client.send(JSON.stringify(marker));
+            })
+
+        })
+
+    })
+
 
 
     app.get('/getCurrentImageAvatar', validateUser, getAvatar, async (req, res) => {
@@ -312,6 +339,8 @@ app.post('/checkLogin', async (req, res) => {
 })
 
 
-app.listen(port, () => {
+
+
+server.listen(port, () => {
     console.log(`server is running at ${port}`);
 });
