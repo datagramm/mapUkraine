@@ -32,6 +32,7 @@ const e = require('express');
 const {httpOnly} = require('express-session/session/cookie');
 const {getRounds} = require('bcrypt');
 const Session = require('./models/session');
+const {client} = require('websocket');
 
 
 
@@ -65,7 +66,7 @@ const getAvatar = async (req,res, next ) => {
 
 }
 const ws = new WebSocket.Server({ server:server });
-let connections = new Set()
+let connections = new Set();
 
 
 ws.on('connection',  async (ws, req) => {
@@ -75,8 +76,7 @@ ws.on('connection',  async (ws, req) => {
     if (session) {
         ws.userName = session.userName;
         await connections.add(ws);
-        console.log('____________________________')
-        console.log(ws.userName);
+
 
         ws.on('message', async (data) => {
 
@@ -91,8 +91,18 @@ ws.on('connection',  async (ws, req) => {
               connections.forEach(client => {
                   client.send(JSON.stringify(parseData));
               })
-
           }
+          if (parseData.type === 'userIsTypingComment' ) {
+              connections.forEach(client => {
+
+                  if (client.userName != ws.userName) {
+                      client.send(JSON.stringify({userName: ws.userName, type: 'userIsTypingComment'}))
+                  }
+
+              })
+          }
+
+
 
 
         })
@@ -360,6 +370,8 @@ app.post('/checkLogin', async (req, res) => {
 
     } else  res.send({typeOfTooltip: 'approved-tooltip'});
 })
+
+
 
 
 

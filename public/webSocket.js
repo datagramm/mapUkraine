@@ -1,5 +1,6 @@
 import {someFunction} from './pushMarker.js';
 import {pushCommentWebSocket} from './sendComment.js';
+import {userIsTyping} from './userIsTyping.js';
 
 const protocol = window.location.protocol.includes('https') ? 'wss' : 'ws';
 const socket = new WebSocket(`${protocol}://${location.host}`);
@@ -13,6 +14,9 @@ socket.onmessage = async (event) => {
     }
     if (parseData.type === 'pushComment') {
         pushCommentWebSocket(parseData.comment, parseData.coords);
+    }
+    if (parseData.type === 'userIsTypingComment') {
+        userIsTyping(parseData.userName);
     }
 
 };

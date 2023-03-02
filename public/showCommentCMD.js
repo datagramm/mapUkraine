@@ -10,3 +10,4 @@ commentLine.addEventListener('click', event => {
 commentsBlock.addEventListener('scroll', event =>{
     commentsDiv.style.bottom = '-30vh';
 })
+

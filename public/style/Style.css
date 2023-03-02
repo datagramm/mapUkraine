@@ -589,3 +589,13 @@ label{display: flex;
 #plug {
     height: 20%;
 }
+#typing-tooltip {
+    display: none;
+    width: 50%;
+    height: 20%;
+    border-radius: 1vh;
+    background-color: gray;
+    color: white;
+    position: absolute;
+    top: -25%;
+}
