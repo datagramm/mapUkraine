@@ -278,7 +278,10 @@ app.post('/sentComment', validateUser, validateSession,  (req, res) => {
         };
 
     Marker.findOneAndUpdate({coord: req.body.coords}, {$push: {comments: comment}}, {new: true}).then(marker => {
-        res.send(comment);
+        res.send({
+            comment: comment,
+            coords: req.body.coords,
+        });
 
     });
 });

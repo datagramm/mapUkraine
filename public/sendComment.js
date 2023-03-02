@@ -29,6 +29,11 @@ function pushComment(comment) {
 }
 
 let coords;
+
+function pushCommentWebSocket (comment, currentMarkerCoords) {
+    if (currentMarkerCoords === coords) pushComment(comment)
+}
+
 let submitComment = document.getElementById('submit-comment');
 submitComment.addEventListener('click', event => {
     let textOfComment = document.getElementById('comment-text-submit');
@@ -36,10 +41,11 @@ submitComment.addEventListener('click', event => {
     $.post('/sentComment', {
         textOfComment: textOfComment.value,
         coords: coords,
-    }).then(comment => socket.send(JSON.stringify({
-        comment: comment,
+    }).then(data => socket.send(JSON.stringify({
+        comment: data.comment,
         type: 'pushComment',
+        coords: data.coords,
     })))
 })
 
-export {getCoords, pushComment}
+export {getCoords, pushComment, pushCommentWebSocket}
