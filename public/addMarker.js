@@ -40,13 +40,16 @@ const addMarker  = (e) => {
 
 
             socket.send(JSON.stringify({
-                coord: marker.coord,
-                timer: marker.timer,
-                timeInMoment: marker.timeInMoment,
-                status1: marker.status1,
-                status2: marker.status2,
-                uprate: marker.uprate,
-                downrate: marker.downrate,
+                marker: {
+                    coord: marker.coord,
+                    timer: marker.timer,
+                    timeInMoment: marker.timeInMoment,
+                    status1: marker.status1,
+                    status2: marker.status2,
+                    uprate: marker.uprate,
+                    downrate: marker.downrate,
+                },
+                type: 'broadcast',
             }))
 
 

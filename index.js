@@ -67,20 +67,30 @@ const getAvatar = async (req,res, next ) => {
 const ws = new WebSocket.Server({ server:server });
 let connections = new Set()
 
-ws.on('connection', validateUser, async (ws) => {
 
-    await connections.add(ws);
-    console.log(connections + 'its websockets');
+ws.on('connection',  async (ws, req) => {
 
-    ws.on('message', async (data) => {
-        const marker = await JSON.parse(data);
-        console.log('________________________')
-        console.log(marker);
-        connections.forEach( client => {
-            client.send(JSON.stringify(marker));
+    const refreshTokenId =  await req.headers.cookie.slice(15 + req.headers.cookie.indexOf('refreshTokenId'))
+    const session = await Session.findOne({"refreshToken.id": refreshTokenId});
+    if (session) {
+        ws.userName = session.userName;
+        await connections.add(ws);
+        console.log('____________________________')
+        console.log(ws.userName);
+
+        ws.on('message', async (data) => {
+
+            const parseData = await JSON.parse(data);
+          if (parseData.type === 'broadcast') {
+              connections.forEach(client => {
+                  client.send(JSON.stringify(parseData));
+              })
+          }
+
         })
 
-    })
+    }
+
 
 })
 
