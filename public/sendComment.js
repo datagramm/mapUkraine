@@ -31,7 +31,8 @@ function pushComment(comment) {
 let coords;
 
 function pushCommentWebSocket (comment, currentMarkerCoords) {
-    if (currentMarkerCoords === coords) pushComment(comment)
+    console.log(currentMarkerCoords)
+    if (currentMarkerCoords == coords) pushComment(comment)
 }
 
 let submitComment = document.getElementById('submit-comment');
