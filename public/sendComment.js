@@ -2,6 +2,9 @@ function getCoords(event) {
     coords = JSON.stringify(event.layer._latlng);
 }
 
+const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
+const socket = new WebSocket(`${protocol}://${location.host}`);
+
 function pushComment(comment) {
 
     let subContainer = document.createElement('div');
@@ -33,7 +36,10 @@ submitComment.addEventListener('click', event => {
     $.post('/sentComment', {
         textOfComment: textOfComment.value,
         coords: coords,
-    }).then(comment => pushComment(comment))
+    }).then(comment => socket.send(JSON.stringify({
+        comment: comment,
+        type: 'pushComment',
+    })))
 })
 
 export {getCoords, pushComment}

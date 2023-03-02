@@ -81,11 +81,19 @@ ws.on('connection',  async (ws, req) => {
         ws.on('message', async (data) => {
 
             const parseData = await JSON.parse(data);
-          if (parseData.type === 'broadcast') {
+
+          if (parseData.type === 'pushMarker') {
               connections.forEach(client => {
                   client.send(JSON.stringify(parseData));
               })
           }
+          if (parseData.type === 'pushComment') {
+              connections.forEach(client => {
+                  client.send(JSON.stringify(parseData));
+              })
+
+          }
+
 
         })
 

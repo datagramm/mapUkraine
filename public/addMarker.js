@@ -49,7 +49,7 @@ const addMarker  = (e) => {
                     uprate: marker.uprate,
                     downrate: marker.downrate,
                 },
-                type: 'broadcast',
+                type: 'pushMarker',
             }))
 
 
