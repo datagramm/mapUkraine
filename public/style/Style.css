@@ -246,7 +246,6 @@
     border-radius: 1vh;
 }
 #add-comment {
-    overflow: scroll;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -590,12 +589,51 @@ label{display: flex;
     height: 20%;
 }
 #typing-tooltip {
+    font-size: 3vh;
+    justify-content: center;
     display: none;
-    width: 50%;
-    height: 20%;
+    width: fit-content;
+    height: fit-content;
     border-radius: 1vh;
-    background-color: gray;
-    color: white;
+    background-color: white;
+    opacity: 0.8;
+    color: grey;
     position: absolute;
     top: -25%;
+    align-items: flex-end;
+    padding: 1vh;
+    box-sizing: border-box;
 }
+#typing-tooltip-animation {
+    margin-left: 1vh;
+    height: 100%;
+    width: 20%;
+    display: flex;
+}
+.typing-dots {
+    background-color: grey;
+    clip-path: circle(40%);
+    width: 2vh;
+    height: 2vh;
+    animation: isTyping 1s ease-in infinite;
+}
+.typing-dots:nth-child(2){
+    animation-delay: 0.2s;
+}
+.typing-dots:nth-child(3){
+    animation-delay: 0.4s;
+}
+@keyframes isTyping {
+    0% {
+        transform: translateY(0%);
+    }
+    70% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+
+}
+
+
