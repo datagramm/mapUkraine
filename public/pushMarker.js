@@ -47,7 +47,7 @@ function someFunction(coord, time, timePast, status1, status2, uprate, downrate)
         }
     });
     let greenIcon = new LeafIcon({
-        iconUrl: 'https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1fa96.png',
+        iconUrl: 'https://www.nicepng.com/png/detail/133-1332757_icon-creative-transprent-png-free-download-computer-road.png',
 
     });
     //some
